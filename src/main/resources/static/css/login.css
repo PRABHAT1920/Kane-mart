@@ -1,0 +1,291 @@
+/* ==========================================
+   KANEMART LOGIN PAGE
+   ========================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:
+        #f4f6f8;
+
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+}
+
+
+/* ==========================================
+   LOGIN CONTAINER
+   ========================================== */
+
+.login-container {
+
+    width: 100%;
+
+    max-width: 500px;
+
+    padding: 20px;
+
+}
+
+
+/* ==========================================
+   LOGIN CARD
+   ========================================== */
+
+.login-card {
+
+    background: white;
+
+    padding: 45px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 10px 35px
+        rgba(0, 0, 0, 0.10);
+
+}
+
+
+/* ==========================================
+   BRAND
+   ========================================== */
+
+.brand {
+
+    text-align: center;
+
+    margin-bottom: 30px;
+
+}
+
+
+.brand h1 {
+
+    font-size: 48px;
+
+    color: #111;
+
+    margin-bottom: 8px;
+
+}
+
+
+.brand p {
+
+    font-size: 22px;
+
+    color: #666;
+
+}
+
+
+/* ==========================================
+   INSTRUCTION
+   ========================================== */
+
+.instruction {
+
+    text-align: center;
+
+    color: #555;
+
+    font-size: 17px;
+
+    line-height: 1.5;
+
+    margin-bottom: 30px;
+
+}
+
+
+/* ==========================================
+   FORM
+   ========================================== */
+
+.form-group {
+
+    margin-bottom: 22px;
+
+}
+
+
+.form-group label {
+
+    display: block;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    margin-bottom: 10px;
+
+    color: #222;
+
+}
+
+
+.form-group input {
+
+    width: 100%;
+
+    padding: 17px;
+
+    border:
+        1px solid #ccc;
+
+    border-radius: 9px;
+
+    font-size: 18px;
+
+    outline: none;
+
+}
+
+
+.form-group input:focus {
+
+    border-color: #222;
+
+}
+
+
+/* ==========================================
+   SEND OTP BUTTON
+   ========================================== */
+
+#sendOtpBtn {
+
+    width: 100%;
+
+    padding: 17px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #222;
+
+    color: white;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+}
+
+
+#sendOtpBtn:hover {
+
+    background: #333;
+
+}
+
+
+#sendOtpBtn:disabled {
+
+    background: #888;
+
+    cursor: not-allowed;
+
+}
+
+
+/* ==========================================
+   MESSAGE
+   ========================================== */
+
+.message {
+
+    display: none;
+
+    margin-top: 20px;
+
+    padding: 13px;
+
+    border-radius: 8px;
+
+    text-align: center;
+
+    font-size: 15px;
+
+}
+
+
+.message.success {
+
+    display: block;
+
+    background: #e7f7ed;
+
+    color: #18743a;
+
+}
+
+
+.message.error {
+
+    display: block;
+
+    background: #fdeaea;
+
+    color: #b42323;
+
+}
+
+
+.message.info {
+
+    display: block;
+
+    background: #eef4ff;
+
+    color: #2457a6;
+
+}
+
+
+/* ==========================================
+   MOBILE
+   ========================================== */
+
+@media (max-width: 600px) {
+
+    .login-card {
+
+        padding: 30px 22px;
+
+    }
+
+
+    .brand h1 {
+
+        font-size: 38px;
+
+    }
+
+
+    .brand p {
+
+        font-size: 19px;
+
+    }
+
+}

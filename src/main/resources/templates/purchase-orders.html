@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KaneMart - Purchase Orders</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f6fa;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        input,
+        select {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .add-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #f0f2f5;
+        }
+
+        .message {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Purchase Order Management</h1>
+
+        <div class="card">
+
+            <h2>Create Purchase Order</h2>
+
+            <form id="purchaseOrderForm">
+
+                <div class="form-grid">
+
+                    <select id="supplierId" required>
+                        <option value="">Select Supplier</option>
+                    </select>
+
+                    <select id="productId" required>
+                        <option value="">Select Product</option>
+                    </select>
+
+                    <input
+                        type="number"
+                        id="quantity"
+                        placeholder="Quantity"
+                        min="1"
+                        required>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="add-btn">
+                    Create Purchase Order
+                </button>
+
+            </form>
+
+            <div
+                id="message"
+                class="message">
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Purchase Orders</h2>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>PO Number</th>
+                        <th>Supplier</th>
+                        <th>Total Amount</th>
+                        <th>Status</th>
+                        <th>Order Date</th>
+                    </tr>
+                </thead>
+
+                <tbody id="purchaseOrderTableBody">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <script src="/js/purchase-orders.js"></script>
+
+</body>
+
+</html>

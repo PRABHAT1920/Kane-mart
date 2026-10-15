@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>KaneMart - Employee Login</title>
+
+    <link rel="stylesheet"
+          href="/css/login.css">
+
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="login-card">
+
+            <!-- BRAND -->
+            <div class="brand">
+
+                <h1>KaneMart</h1>
+
+                <p>Employee Login</p>
+
+            </div>
+
+
+            <!-- INSTRUCTION -->
+            <p class="instruction">
+
+                Enter your registered mobile number
+                to generate an OTP.
+
+            </p>
+
+
+            <!-- LOGIN FORM -->
+            <form id="loginForm">
+
+                <div class="form-group">
+
+                    <label for="mobile">
+                        Mobile Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="mobile"
+                        name="mobile"
+                        maxlength="10"
+                        minlength="10"
+                        inputmode="numeric"
+                        pattern="[0-9]{10}"
+                        autocomplete="tel"
+                        placeholder="Enter 10-digit mobile number"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- SEND OTP -->
+                <button
+                    type="submit"
+                    id="sendOtpBtn">
+
+                    Send OTP
+
+                </button>
+
+            </form>
+
+
+            <!-- MESSAGE -->
+            <div
+                id="message"
+                class="message">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="/js/login.js"></script>
+
+</body>
+
+</html>

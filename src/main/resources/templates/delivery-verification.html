@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KaneMart | Delivery Verification</title>
+
+    <link rel="stylesheet"
+          href="/css/delivery-verification.css">
+</head>
+
+<body>
+
+<main class="page">
+
+    <header class="topbar">
+        <div class="brand-mark">K</div>
+
+        <div>
+            <h1>KaneMart</h1>
+            <p>Smart Inventory AI</p>
+        </div>
+
+        <a href="/customer-orders" class="back-link">
+            Customer Orders
+        </a>
+    </header>
+
+    <section class="panel">
+
+        <div class="eyebrow">ORDER COMPLETION</div>
+
+        <h2>Delivery Verification</h2>
+
+        <p class="intro">
+            Enter the order ID and verify the customer's delivery OTP
+            to complete the delivery.
+        </p>
+
+        <!-- Find order -->
+        <form id="lookupForm">
+
+            <label for="orderId">
+                Order Database ID
+            </label>
+
+            <div class="lookup-row">
+
+                <input
+                    type="number"
+                    id="orderId"
+                    min="1"
+                    placeholder="Enter numeric order ID"
+                    required>
+
+                <button type="submit" class="secondary-btn">
+                    Find Order
+                </button>
+
+            </div>
+
+        </form>
+
+        <!-- Order details -->
+        <section id="orderCard" class="order-card" hidden>
+
+            <div class="order-row">
+                <span>Order ID</span>
+                <strong id="displayOrderId">--</strong>
+            </div>
+
+            <div class="order-row">
+                <span>Current Status</span>
+                <strong id="displayStatus" class="status-pill">
+                    --
+                </strong>
+            </div>
+
+            <!-- OTP form -->
+            <form id="verifyForm">
+
+                <label for="otp">
+                    Customer Delivery OTP
+                </label>
+
+                <input
+                    type="text"
+                    id="otp"
+                    inputmode="numeric"
+                    autocomplete="one-time-code"
+                    minlength="4"
+                    maxlength="8"
+                    pattern="[0-9]{4,8}"
+                    placeholder="Enter customer OTP"
+                    required>
+
+                <button
+                    type="submit"
+                    id="verifyButton"
+                    class="primary-btn">
+
+                    Verify OTP &amp; Mark Delivered
+
+                </button>
+
+            </form>
+
+        </section>
+
+        <!-- Success/error message -->
+        <div
+            id="message"
+            class="message"
+            role="status"
+            aria-live="polite">
+
+            Enter an order ID to begin.
+
+        </div>
+
+        <p class="security-note">
+            The server verifies the OTP. An incorrect OTP will not
+            change the order status.
+        </p>
+
+    </section>
+
+</main>
+
+<script src="/js/delivery-verification.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KaneMart - Suppliers</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f6fa;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        input {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .add-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #f0f2f5;
+        }
+
+        .message {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Supplier Management</h1>
+
+        <!-- Add Supplier -->
+        <div class="card">
+
+            <h2>Add Supplier</h2>
+
+            <form id="supplierForm">
+
+                <div class="form-grid">
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Supplier Name"
+                        required>
+
+                    <input
+                        type="text"
+                        id="contact"
+                        placeholder="Contact Number"
+                        required>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Email"
+                        required>
+
+                    <input
+                        type="text"
+                        id="address"
+                        placeholder="Address"
+                        required>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="add-btn">
+                    Add Supplier
+                </button>
+
+            </form>
+
+            <div
+                id="message"
+                class="message">
+            </div>
+
+        </div>
+
+        <!-- Supplier List -->
+        <div class="card">
+
+            <h2>Suppliers</h2>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="supplierTableBody">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <script src="/js/suppliers.js"></script>
+
+</body>
+
+</html>

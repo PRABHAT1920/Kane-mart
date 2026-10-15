@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>KaneMart - Customer Orders</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        /* ================================
+           HEADER
+           ================================= */
+
+        header {
+            background: #1f2937;
+            color: white;
+
+            padding: 22px 36px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .dashboard-btn {
+            background: #374151;
+            color: white;
+
+            border: none;
+            border-radius: 8px;
+
+            padding: 14px 24px;
+
+            font-size: 16px;
+
+            cursor: pointer;
+        }
+
+        .dashboard-btn:hover {
+            background: #4b5563;
+        }
+
+        /* ================================
+           MAIN
+           ================================= */
+
+        main {
+            padding: 36px;
+        }
+
+        .card {
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 30px;
+
+            margin-bottom: 35px;
+
+            box-shadow:
+                0 3px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+
+            font-size: 34px;
+
+            margin-bottom: 30px;
+        }
+
+        /* ================================
+           FORM
+           ================================= */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 22px;
+        }
+
+        .form-group {
+            display: flex;
+
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 18px;
+
+            font-weight: bold;
+
+            margin-bottom: 9px;
+        }
+
+        .form-group input,
+        .form-group select {
+            height: 55px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 8px;
+
+            padding: 0 14px;
+
+            font-size: 17px;
+
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 2px rgba(37, 99, 235, 0.15);
+        }
+
+        /* ================================
+           PRODUCT INFO
+           ================================= */
+
+        .product-info {
+            margin-top: 18px;
+
+            padding: 15px 18px;
+
+            border-radius: 8px;
+
+            background: #eff6ff;
+
+            border: 1px solid #bfdbfe;
+
+            color: #1e40af;
+
+            font-size: 15px;
+        }
+
+        .product-info strong {
+            color: #1e3a8a;
+        }
+
+        /* ================================
+           BUTTON
+           ================================= */
+
+        .button-row {
+            margin-top: 30px;
+        }
+
+        .create-btn {
+            background: #2563eb;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 14px 26px;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .create-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .create-btn:disabled {
+            background: #94a3b8;
+
+            cursor: not-allowed;
+        }
+
+        /* ================================
+           MESSAGE
+           ================================= */
+
+        #orderMessage {
+            margin-top: 20px;
+
+            padding: 14px 18px;
+
+            border-radius: 8px;
+
+            display: none;
+
+            font-size: 16px;
+        }
+
+        #orderMessage.success {
+            display: block;
+
+            background: #dcfce7;
+
+            color: #166534;
+
+            border: 1px solid #86efac;
+        }
+
+        #orderMessage.error {
+            display: block;
+
+            background: #fee2e2;
+
+            color: #991b1b;
+
+            border: 1px solid #fca5a5;
+        }
+
+        /* ================================
+           ORDERS
+           ================================= */
+
+        .orders-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+        .orders-header h2 {
+            margin: 0;
+        }
+
+        .refresh-btn {
+            background: #16a34a;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 13px 22px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .refresh-btn:hover {
+            background: #15803d;
+        }
+
+        .table-container {
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 900px;
+        }
+
+        th {
+            background: #f1f5f9;
+
+            color: #334155;
+
+            text-align: left;
+
+            padding: 15px;
+
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        td {
+            padding: 15px;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .status {
+            display: inline-block;
+
+            padding: 6px 11px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+        .status.PENDING {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status.CONFIRMED {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status.DELIVERED {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.CANCELLED {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .empty {
+            text-align: center;
+
+            padding: 30px;
+
+            color: #64748b;
+        }
+
+        /* ================================
+           LOADING
+           ================================= */
+
+        .loading {
+            color: #64748b;
+
+            padding: 15px 0;
+        }
+
+        /* ================================
+           RESPONSIVE
+           ================================= */
+
+        @media (max-width: 1000px) {
+
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            header {
+                padding: 18px;
+
+                flex-direction: column;
+
+                gap: 15px;
+
+                align-items: flex-start;
+            }
+
+            header h1 {
+                font-size: 25px;
+            }
+
+            main {
+                padding: 18px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .card h2 {
+                font-size: 27px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .orders-header {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     HEADER
+     ========================================== -->
+
+<header>
+
+    <h1>KaneMart - Customer Orders</h1>
+
+    <button
+        class="dashboard-btn"
+        type="button"
+        onclick="goToDashboard()">
+
+        Dashboard
+
+    </button>
+
+</header>
+
+
+<main>
+
+
+    <!-- ======================================
+         CREATE ORDER
+         ====================================== -->
+
+    <section class="card">
+
+        <h2>Create Customer Order</h2>
+
+
+        <div class="form-grid">
+
+
+            <!-- CUSTOMER NAME -->
+
+            <div class="form-group">
+
+                <label for="customerName">
+                    Customer Name
+                </label>
+
+                <input
+                    type="text"
+                    id="customerName"
+                    placeholder="Enter customer name">
+
+            </div>
+
+
+            <!-- CUSTOMER MOBILE -->
+
+            <div class="form-group">
+
+                <label for="customerMobile">
+                    Customer Mobile
+                </label>
+
+                <input
+                    type="text"
+                    id="customerMobile"
+                    maxlength="10"
+                    placeholder="10-digit mobile number">
+
+            </div>
+
+
+            <!-- PRODUCT -->
+
+            <div class="form-group">
+
+                <label for="productId">
+                    Product
+                </label>
+
+                <select id="productId">
+
+                    <option value="">
+                        Loading products...
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- QUANTITY -->
+
+            <div class="form-group">
+
+                <label for="quantity">
+                    Quantity
+                </label>
+
+                <input
+                    type="number"
+                    id="quantity"
+                    value="1"
+                    min="1">
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCT INFORMATION -->
+
+        <div
+            id="productInfo"
+            class="product-info">
+
+            Select a product to see price and stock.
+
+        </div>
+
+
+        <!-- CREATE BUTTON -->
+
+        <div class="button-row">
+
+            <button
+                id="createOrderBtn"
+                class="create-btn"
+                type="button"
+                onclick="createOrder()">
+
+                Create Order
+
+            </button>
+
+        </div>
+
+
+        <!-- MESSAGE -->
+
+        <div id="orderMessage"></div>
+
+    </section>
+
+
+    <!-- ======================================
+         CUSTOMER ORDERS
+         ====================================== -->
+
+    <section class="card">
+
+        <div class="orders-header">
+
+            <h2>Customer Orders</h2>
+
+            <button
+                class="refresh-btn"
+                type="button"
+                onclick="loadOrders()">
+
+                Refresh Orders
+
+            </button>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Order Number</th>
+
+                        <th>Customer</th>
+
+                        <th>Mobile</th>
+
+                        <th>Total</th>
+
+                        <th>Status</th>
+
+                        <th>Order Date</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="ordersTableBody">
+
+                    <tr>
+
+                        <td
+                            colspan="7"
+                            class="empty">
+
+                            Loading orders...
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<script>
+
+/* ==========================================
+   GLOBAL PRODUCT DATA
+   ========================================== */
+
+let products = [];
+
+let inventoryCache = {};
+
+
+/* ==========================================
+   PAGE LOAD
+   ========================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        loadProducts();
+
+        loadOrders();
+
+    }
+);
+
+
+/* ==========================================
+   LOAD PRODUCTS
+   ========================================== */
+
+async function loadProducts() {
+
+    const productSelect =
+        document.getElementById("productId");
+
+
+    try {
+
+        productSelect.innerHTML =
+            `<option value="">Loading products...</option>`;
+
+
+        const response =
+            await fetch("/api/products");
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load products"
+            );
+
+        }
+
+
+        products = await response.json();
+
+
+        productSelect.innerHTML =
+            `<option value="">
+                Select Product
+             </option>`;
+
+
+        const activeProducts =
+            products.filter(
+                product => product.active === true
+            );
+
+
+        if (activeProducts.length === 0) {
+
+            productSelect.innerHTML =
+                `<option value="">
+                    No active products found
+                 </option>`;
+
+            return;
+        }
+
+
+        /*
+         * IMPORTANT:
+         *
+         * value = product.id
+         *
+         * This prevents the previous problem where
+         * the displayed product and submitted product
+         * were different.
+         */
+
+        activeProducts.forEach(product => {
+
+            const option =
+                document.createElement("option");
+
+
+            option.value =
+                product.id;
+
+
+            option.textContent =
+                `${product.name} - ₹${product.price}`;
+
+
+            productSelect.appendChild(option);
+
+        });
+
+
+        productSelect.addEventListener(
+            "change",
+            updateProductInformation
+        );
+
+
+        /*
+         * Select the first product automatically.
+         */
+
+        if (activeProducts.length > 0) {
+
+            productSelect.value =
+                activeProducts[0].id;
+
+            await updateProductInformation();
+
+        }
+
+    }
+    catch (error) {
+
+        console.error(
+            "Product loading error:",
+            error
+        );
+
+
+        productSelect.innerHTML =
+            `<option value="">
+                Failed to load products
+             </option>`;
+
+
+        showMessage(
+            "Unable to load products.",
+            "error"
+        );
+
+    }
+}
+
+
+/* ==========================================
+   UPDATE PRODUCT INFORMATION
+   ========================================== */
+
+async function updateProductInformation() {
+
+    const productSelect =
+        document.getElementById("productId");
+
+    const productInfo =
+        document.getElementById("productInfo");
+
+
+    const productId =
+        Number(productSelect.value);
+
+
+    if (!productId) {
+
+        productInfo.innerHTML =
+            "Select a product to see price and stock.";
+
+        return;
+    }
+
+
+    const product =
+        products.find(
+            p => Number(p.id) === productId
+        );
+
+
+    if (!product) {
+
+        productInfo.innerHTML =
+            "Product information unavailable.";
+
+        return;
+    }
+
+
+    /*
+     * Start with Product.quantity as fallback.
+     */
+
+    let stock =
+        Number(product.quantity || 0);
+
+
+    /*
+     * Try to get the real inventory quantity.
+     */
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/inventory/product/${productId}`
+            );
+
+
+        if (response.ok) {
+
+            const inventory =
+                await response.json();
+
+
+            if (Array.isArray(inventory)) {
+
+                stock =
+                    inventory.reduce(
+                        (total, item) =>
+                            total +
+                            Number(item.quantity || 0),
+                        0
+                    );
+
+            }
+
+        }
+
+    }
+    catch (error) {
+
+        console.warn(
+            "Inventory lookup failed. Using product stock.",
+            error
+        );
+
+    }
+
+
+    inventoryCache[productId] =
+        stock;
+
+
+    productInfo.innerHTML = `
+
+        <strong>${escapeHtml(product.name)}</strong>
+
+        &nbsp; | &nbsp;
+
+        Price:
+        <strong>₹${formatNumber(product.price)}</strong>
+
+        &nbsp; | &nbsp;
+
+        Available Stock:
+        <strong>${stock}</strong>
+
+    `;
+
+
+    const quantityInput =
+        document.getElementById("quantity");
+
+
+    quantityInput.max =
+        stock > 0 ? stock : 1;
+
+
+    /*
+     * Don't allow a quantity larger than stock.
+     */
+
+    if (
+        Number(quantityInput.value) > stock &&
+        stock > 0
+    ) {
+
+        quantityInput.value =
+            stock;
+
+    }
+
+}
+
+
+/* ==========================================
+   CREATE ORDER
+   ========================================== */
+
+async function createOrder() {
+
+    const nameInput =
+        document.getElementById("customerName");
+
+    const mobileInput =
+        document.getElementById("customerMobile");
+
+    const productSelect =
+        document.getElementById("productId");
+
+    const quantityInput =
+        document.getElementById("quantity");
+
+    const button =
+        document.getElementById("createOrderBtn");
+
+
+    const customerName =
+        nameInput.value.trim();
+
+
+    const customerMobile =
+        mobileInput.value.trim();
+
+
+    const productId =
+        Number(productSelect.value);
+
+
+    const quantity =
+        Number(quantityInput.value);
+
+
+    /* ======================================
+       VALIDATION
+       ====================================== */
+
+    if (!customerName) {
+
+        showMessage(
+            "Please enter customer name.",
+            "error"
+        );
+
+        nameInput.focus();
+
+        return;
+    }
+
+
+    if (!/^[0-9]{10}$/.test(customerMobile)) {
+
+        showMessage(
+            "Please enter a valid 10-digit mobile number.",
+            "error"
+        );
+
+        mobileInput.focus();
+
+        return;
+    }
+
+
+    if (!productId) {
+
+        showMessage(
+            "Please select a product.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+
+        showMessage(
+            "Quantity must be greater than zero.",
+            "error"
+        );
+
+        quantityInput.focus();
+
+        return;
+    }
+
+
+    const selectedProduct =
+        products.find(
+            product =>
+                Number(product.id) === productId
+        );
+
+
+    if (!selectedProduct) {
+
+        showMessage(
+            "Selected product could not be found.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /* ======================================
+       CHECK STOCK
+       ====================================== */
+
+    const currentStock =
+        inventoryCache[productId];
+
+
+    if (
+        currentStock !== undefined &&
+        currentStock < quantity
+    ) {
+
+        showMessage(
+            `Only ${currentStock} units are available.`,
+            "error"
+        );
+
+        return;
+    }
+
+
+    /* ======================================
+       REQUEST
+       ====================================== */
+
+    const orderData = {
+
+        customerName:
+            customerName,
+
+        customerMobile:
+            customerMobile,
+
+        productId:
+            productId,
+
+        quantity:
+            quantity
+
+    };
+
+
+    console.log(
+        "Creating order:",
+        orderData
+    );
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Creating Order...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/orders",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(orderData)
+                }
+            );
+
+
+        /*
+         * Read the response as text first.
+         * This lets us display backend errors.
+         */
+
+        const responseText =
+            await response.text();
+
+
+        let data = null;
+
+
+        try {
+
+            data =
+                responseText
+                    ? JSON.parse(responseText)
+                    : null;
+
+        }
+        catch (error) {
+
+            data = null;
+
+        }
+
+
+        if (!response.ok) {
+
+            let errorMessage =
+                "Failed to create order.";
+
+
+            if (data && data.message) {
+
+                errorMessage =
+                    data.message;
+
+            }
+            else if (responseText) {
+
+                errorMessage =
+                    responseText;
+
+            }
+
+
+            throw new Error(
+                errorMessage
+            );
+        }
+
+
+        /* ==================================
+           SUCCESS
+           ================================== */
+
+        showMessage(
+            `Order created successfully. ` +
+            `Order Number: ${data.orderNumber} ` +
+            `| Total: ₹${formatNumber(data.totalAmount)}`,
+            "success"
+        );
+
+
+        /*
+         * Clear customer information.
+         */
+
+        nameInput.value = "";
+
+        mobileInput.value = "";
+
+        quantityInput.value = "1";
+
+
+        /*
+         * Reload product stock.
+         */
+
+        await updateProductInformation();
+
+
+        /*
+         * Reload orders.
+         */
+
+        await loadOrders();
+
+    }
+    catch (error) {
+
+        console.error(
+            "Create order error:",
+            error
+        );
+
+
+        showMessage(
+            error.message ||
+            "Failed to create order.",
+            "error"
+        );
+
+    }
+    finally {
+
+        button.disabled = false;
+
+        button.textContent =
+            "Create Order";
+
+    }
+
+}
+
+
+/* ==========================================
+   LOAD ORDERS
+   ========================================== */
+
+async function loadOrders() {
+
+    const tableBody =
+        document.getElementById(
+            "ordersTableBody"
+        );
+
+
+    tableBody.innerHTML = `
+
+        <tr>
+
+            <td
+                colspan="7"
+                class="empty">
+
+                Loading orders...
+
+            </td>
+
+        </tr>
+
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/orders"
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to load orders"
+            );
+
+        }
+
+
+        const orders =
+            await response.json();
+
+
+        tableBody.innerHTML = "";
+
+
+        if (
+            !Array.isArray(orders) ||
+            orders.length === 0
+        ) {
+
+            tableBody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="empty">
+
+                        No customer orders found.
+
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+        }
+
+
+        /*
+         * Newest order first.
+         */
+
+        orders
+            .slice()
+            .reverse()
+            .forEach(order => {
+
+                const row =
+                    document.createElement("tr");
+
+
+                const status =
+                    order.status || "PENDING";
+
+
+                const orderDate =
+                    order.orderDate
+                    ? formatDate(order.orderDate)
+                    : "-";
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${order.id ?? "-"}
+                    </td>
+
+                    <td>
+                        <strong>
+                            ${escapeHtml(
+                                order.orderNumber || "-"
+                            )}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            order.customerName || "-"
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            order.customerMobile || "-"
+                        )}
+                    </td>
+
+                    <td>
+                        ₹${formatNumber(
+                            order.totalAmount || 0
+                        )}
+                    </td>
+
+                    <td>
+
+                        <span
+                            class="status ${escapeHtml(status)}">
+
+                            ${escapeHtml(status)}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+                        ${orderDate}
+                    </td>
+
+                `;
+
+
+                tableBody.appendChild(row);
+
+            });
+
+    }
+    catch (error) {
+
+        console.error(
+            "Load orders error:",
+            error
+        );
+
+
+        tableBody.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="7"
+                    class="empty">
+
+                    Failed to load customer orders.
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+}
+
+
+/* ==========================================
+   MESSAGE
+   ========================================== */
+
+function showMessage(
+    message,
+    type
+) {
+
+    const element =
+        document.getElementById(
+            "orderMessage"
+        );
+
+
+    element.textContent =
+        message;
+
+
+    element.className =
+        type;
+
+
+    element.style.display =
+        "block";
+
+}
+
+
+/* ==========================================
+   FORMAT NUMBER
+   ========================================== */
+
+function formatNumber(value) {
+
+    const number =
+        Number(value);
+
+
+    if (Number.isNaN(number)) {
+
+        return "0";
+
+    }
+
+
+    return number.toLocaleString(
+        "en-IN",
+        {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+        }
+    );
+
+}
+
+
+/* ==========================================
+   FORMAT DATE
+   ========================================== */
+
+function formatDate(value) {
+
+    try {
+
+        return new Date(value)
+            .toLocaleString("en-IN");
+
+    }
+    catch (error) {
+
+        return value;
+
+    }
+
+}
+
+
+/* ==========================================
+   HTML ESCAPING
+   ========================================== */
+
+function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* ==========================================
+   DASHBOARD
+   ========================================== */
+
+function goToDashboard() {
+
+    window.location.href =
+        "/dashboard";
+
+}
+
+</script>
+
+
+</body>
+
+</html>

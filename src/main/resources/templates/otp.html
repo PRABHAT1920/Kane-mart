@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>KaneMart - OTP Verification</title>
+
+    <link rel="stylesheet"
+          href="/css/otp.css">
+
+</head>
+
+<body>
+
+    <div class="otp-container">
+
+        <div class="otp-card">
+
+            <!-- =========================
+                 BRAND
+                 ========================= -->
+
+            <div class="brand">
+
+                <h1>KaneMart</h1>
+
+                <p>OTP Verification</p>
+
+            </div>
+
+
+            <!-- =========================
+                 INSTRUCTION
+                 ========================= -->
+
+            <p class="instruction">
+
+                Enter the 6-digit OTP generated
+                for your registered mobile number.
+
+            </p>
+
+
+            <!-- =========================
+                 MOBILE DISPLAY
+                 ========================= -->
+
+            <div
+                id="mobileDisplay"
+                class="mobile-display">
+
+                OTP generated for your
+                registered mobile number.
+
+            </div>
+
+
+            <!-- =========================
+                 OTP FORM
+                 ========================= -->
+
+            <form id="otpForm">
+
+                <div class="form-group">
+
+                    <label for="otp">
+                        Enter OTP
+                    </label>
+
+                    <input
+                        type="text"
+                        id="otp"
+                        name="otp"
+                        maxlength="6"
+                        minlength="6"
+                        inputmode="numeric"
+                        pattern="[0-9]{6}"
+                        autocomplete="one-time-code"
+                        placeholder="Enter 6-digit OTP"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- =========================
+                     VERIFY OTP
+                     ========================= -->
+
+                <button
+                    type="submit"
+                    id="verifyBtn">
+
+                    Verify OTP
+
+                </button>
+
+            </form>
+
+
+            <!-- =========================
+                 RESEND OTP
+                 ========================= -->
+
+            <button
+                type="button"
+                id="resendBtn"
+                class="resend-btn">
+
+                Resend OTP
+
+            </button>
+
+
+            <!-- =========================
+                 MESSAGE
+                 ========================= -->
+
+            <div
+                id="message"
+                class="message">
+            </div>
+
+
+            <!-- =========================
+                 BACK TO LOGIN
+                 ========================= -->
+
+            <button
+                type="button"
+                class="back-btn"
+                onclick="window.location.href='/login'">
+
+                Back to Login
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         JAVASCRIPT
+         ========================= -->
+
+    <script src="/js/otp.js"></script>
+
+</body>
+
+</html>

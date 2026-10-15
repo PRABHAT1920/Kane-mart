@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KaneMart - Locations</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Location Management</h1>
+
+    <h2>Add Location</h2>
+
+    <div>
+
+        <select id="warehouse">
+            <option value="">Select Warehouse</option>
+        </select>
+
+        <input
+            type="text"
+            id="zone"
+            placeholder="Zone">
+
+        <input
+            type="text"
+            id="rack"
+            placeholder="Rack">
+
+        <input
+            type="text"
+            id="shelf"
+            placeholder="Shelf">
+
+        <input
+            type="text"
+            id="bin"
+            placeholder="Bin">
+
+        <button onclick="addLocation()">
+            Add Location
+        </button>
+
+    </div>
+
+    <br>
+
+    <button onclick="loadLocations()">
+        Refresh Locations
+    </button>
+
+    <div id="message"></div>
+
+    <h2>Storage Locations</h2>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Warehouse</th>
+                <th>Zone</th>
+                <th>Rack</th>
+                <th>Shelf</th>
+                <th>Bin</th>
+            </tr>
+        </thead>
+
+        <tbody id="locationTable">
+
+            <tr>
+                <td colspan="6">
+                    Loading...
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script src="/js/locations.js"></script>
+
+</body>
+
+</html>

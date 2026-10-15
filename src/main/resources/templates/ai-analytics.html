@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#101827">
+    <meta name="description"
+          content="KaneMart Smart Inventory AI analytics dashboard for sales analysis, demand forecasting, and inventory decision support.">
+
+    <title>KaneMart | AI Inventory Analytics</title>
+
+    <link rel="stylesheet" href="/css/ai-analytics.css">
+
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">K</div>
+
+            <div>
+                <h2>KaneMart</h2>
+                <p>Smart Inventory AI</p>
+            </div>
+        </div>
+
+        <div class="sidebar-section-label">MAIN MENU</div>
+
+        <nav aria-label="Main navigation">
+
+            <a href="/dashboard">
+                <span class="nav-icon">▦</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/products">
+                <span class="nav-icon">▣</span>
+                <span>Products</span>
+            </a>
+
+            <a href="/inventory">
+                <span class="nav-icon">▤</span>
+                <span>Inventory</span>
+            </a>
+
+            <a href="/suppliers">
+                <span class="nav-icon">♧</span>
+                <span>Suppliers</span>
+            </a>
+
+            <a href="/customer-orders">
+                <span class="nav-icon">🛒</span>
+                <span>Customer Orders</span>
+            </a>
+
+            <a href="/ai-analytics" class="active" aria-current="page">
+                <span class="nav-icon">◈</span>
+                <span>AI Analytics</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-status-dot"></div>
+
+            <div>
+                <strong>KaneMart Analytics</strong>
+                <p>Inventory intelligence</p>
+            </div>
+        </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- PAGE HEADER -->
+        <header class="page-header">
+
+            <div class="page-heading">
+                <div class="eyebrow">INVENTORY INTELLIGENCE</div>
+
+                <h1>AI Inventory Analytics</h1>
+
+                <p>
+                    Analyse sales patterns, forecast product demand,
+                    and make informed inventory decisions.
+                </p>
+            </div>
+
+            <div class="header-actions">
+                <button id="refreshButton"
+                        class="refresh-btn"
+                        type="button">
+                    ↻ Refresh Analysis
+                </button>
+            </div>
+
+        </header>
+
+        <!-- ANALYTICS CONTROLS -->
+        <section class="control-panel" aria-label="Analytics controls">
+
+            <div class="form-group">
+                <label for="productSelect">Select Product</label>
+
+                <select id="productSelect">
+                    <option value="">Loading products...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="forecastDays">Forecast Period</label>
+
+                <select id="forecastDays">
+                    <option value="7">Next 7 days</option>
+                    <option value="15">Next 15 days</option>
+                    <option value="30" selected>Next 30 days</option>
+                </select>
+            </div>
+
+            <button id="analyseButton"
+                    class="analyse-btn"
+                    type="button">
+                Analyse Demand
+            </button>
+
+        </section>
+
+        <!-- STATUS -->
+        <div id="statusMessage"
+             class="status-message"
+             role="status"
+             aria-live="polite">
+            Loading inventory analytics...
+        </div>
+
+        <!-- INVENTORY OVERVIEW -->
+        <section class="dashboard-section">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Inventory Overview</h2>
+                    <p>Summary of the selected product.</p>
+                </div>
+
+                <span class="section-tag">LIVE API DATA</span>
+            </div>
+
+            <div class="summary-grid">
+
+                <article class="summary-card">
+                    <div class="summary-card-top">
+                        <div class="card-label">Selected Product</div>
+                        <div class="metric-icon product-icon">P</div>
+                    </div>
+
+                    <div id="productName" class="card-value">--</div>
+
+                    <div class="card-description">
+                        Product under analysis
+                    </div>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-card-top">
+                        <div class="card-label">Current Stock</div>
+                        <div class="metric-icon stock-icon">S</div>
+                    </div>
+
+                    <div id="currentStock" class="card-value">--</div>
+
+                    <div class="card-description">
+                        Recorded product quantity
+                    </div>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-card-top">
+                        <div class="card-label">Average Daily Demand</div>
+                        <div class="metric-icon demand-icon">D</div>
+                    </div>
+
+                    <div id="averageDemand" class="card-value">--</div>
+
+                    <div class="card-description">
+                        Units per recorded sales day
+                    </div>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-card-top">
+                        <div class="card-label">Predicted Demand</div>
+                        <div class="metric-icon forecast-icon">F</div>
+                    </div>
+
+                    <div id="predictedDemand" class="card-value">--</div>
+
+                    <div class="card-description">
+                        Estimated units for the selected period
+                    </div>
+                </article>
+
+            </div>
+
+        </section>
+
+        <!-- DEMAND FORECAST GRAPH -->
+        <section class="chart-card">
+
+            <div class="chart-header">
+                <div>
+                    <div class="eyebrow">DEMAND PREDICTION</div>
+                    <h2>Demand Forecast</h2>
+
+                    <p>
+                        Compare historical daily sales with estimated
+                        future demand.
+                    </p>
+                </div>
+
+                <span class="ai-badge">AI FORECAST</span>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="demandChart"
+                        role="img"
+                        aria-label="Historical sales and estimated future demand graph">
+                </canvas>
+            </div>
+
+            <div class="chart-legend-info">
+                <span class="info-icon">ⓘ</span>
+
+                Historical sales are retrieved from recorded orders.
+                Forecast values are estimates, not confirmed future sales.
+            </div>
+
+        </section>
+
+        <!-- SALES INTELLIGENCE -->
+        <section class="analytics-card">
+
+            <div class="chart-header">
+                <div>
+                    <div class="eyebrow">SALES PERFORMANCE</div>
+                    <h2>Sales Intelligence</h2>
+
+                    <p>
+                        Understand historical product sales and
+                        identify basic sales trends.
+                    </p>
+                </div>
+
+                <span class="analytics-badge">SALES ANALYTICS</span>
+            </div>
+
+            <!-- SALES SUMMARY -->
+            <div class="sales-summary">
+
+                <article class="summary-card">
+                    <div class="summary-card-top">
+                        <div class="card-label">Total Units Sold</div>
+                        <div class="metric-icon sales-icon">U</div>
+                    </div>
+
+                    <div id="totalUnitsSold" class="card-value">--</div>
+
+                    <div class="card-description">
+                        Units across recorded sales dates
+                    </div>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-card-top">
+                        <div class="card-label">Average Daily Sales</div>
+                        <div class="metric-icon average-icon">A</div>
+                    </div>
+
+                    <div id="averageDailySales" class="card-value">--</div>
+
+                    <div class="card-description">
+                        Average on days with recorded sales
+                    </div>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-card-top">
+                        <div class="card-label">Days With Sales</div>
+                        <div class="metric-icon days-icon">D</div>
+                    </div>
+
+                    <div id="daysWithSales" class="card-value">--</div>
+
+                    <div class="card-description">
+                        Dates containing recorded sales
+                    </div>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-card-top">
+                        <div class="card-label">Sales Trend</div>
+                        <div class="metric-icon trend-icon">↗</div>
+                    </div>
+
+                    <div id="salesTrend" class="card-value">--</div>
+
+                    <div class="card-description">
+                        Basic historical trend classification
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- SALES TREND GRAPH -->
+            <div class="chart-subsection">
+
+                <div class="chart-subsection-header">
+                    <div>
+                        <h3>Daily Sales Trend</h3>
+                        <p>
+                            Compare the units sold on each recorded date.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="salesTrendChart"
+                            role="img"
+                            aria-label="Daily product sales trend graph">
+                    </canvas>
+                </div>
+
+            </div>
+
+            <div id="salesStatusMessage"
+                 class="chart-legend-info"
+                 role="status"
+                 aria-live="polite">
+                Select a product to load sales intelligence.
+            </div>
+
+        </section>
+
+        <!-- INVENTORY DECISION SUPPORT -->
+        <section class="recommendation-card">
+
+            <div class="recommendation-header">
+                <div>
+                    <div class="eyebrow">INVENTORY OPTIMIZATION</div>
+                    <h2>Inventory Decision Support</h2>
+
+                    <p>
+                        Review current stock against estimated demand.
+                    </p>
+                </div>
+
+                <span class="decision-badge">SMART INSIGHTS</span>
+            </div>
+
+            <div id="recommendationStatus"
+                 class="recommendation-status">
+                Select a product to analyse its stock.
+            </div>
+
+            <p id="recommendationDetails">
+                KaneMart will compare recorded stock with estimated demand.
+            </p>
+
+            <div class="decision-note">
+                <strong>Important:</strong>
+
+                Recommendations are based on available product and sales
+                data. Verify stock levels, supplier lead times, and pending
+                orders before placing a purchase order.
+            </div>
+
+        </section>
+
+        <!-- ANALYTICS EXPLANATION -->
+        <section class="info-card">
+
+            <div class="section-heading">
+                <div>
+                    <h2>How KaneMart Analytics Works</h2>
+
+                    <p>
+                        Understand how the dashboard supports
+                        inventory decisions.
+                    </p>
+                </div>
+            </div>
+
+            <div class="info-grid">
+
+                <article class="info-item">
+                    <div class="info-item-icon">D</div>
+                    <h3>Demand Estimation</h3>
+
+                    <p>
+                        Uses recorded order quantities to calculate
+                        a baseline demand estimate for the selected period.
+                    </p>
+                </article>
+
+                <article class="info-item">
+                    <div class="info-item-icon">S</div>
+                    <h3>Sales Analysis</h3>
+
+                    <p>
+                        Groups recorded product sales by date and
+                        calculates sales summary metrics and a basic trend.
+                    </p>
+                </article>
+
+                <article class="info-item">
+                    <div class="info-item-icon">I</div>
+                    <h3>Inventory Support</h3>
+
+                    <p>
+                        Helps identify products that may require stock review
+                        based on current quantity and estimated demand.
+                    </p>
+                </article>
+
+            </div>
+
+            <div class="chart-legend-info">
+                <span class="info-icon">ⓘ</span>
+
+                The current implementation uses statistical calculations,
+                not a trained machine-learning model. Forecast accuracy
+                depends on the completeness and quality of recorded data.
+            </div>
+
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="page-footer">
+            <div>
+                <strong>KaneMart</strong>
+                <span>Smart Inventory AI</span>
+            </div>
+
+            <p>Sales Analytics &amp; Demand Forecasting</p>
+        </footer>
+
+    </main>
+
+</div>
+
+<!-- Load Chart.js FIRST -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+
+<!-- Load KaneMart JavaScript AFTER Chart.js -->
+<script src="/js/ai-analytics.js"></script>
+
+</body>
+</html>

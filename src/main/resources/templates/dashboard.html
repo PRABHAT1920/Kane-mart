@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KaneMart - Dashboard</title>
+
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+    <!-- Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">KaneMart</div>
+
+        <nav>
+            <a href="/dashboard" class="active">Dashboard</a>
+            <a href="/products">Products</a>
+            <a href="/inventory">Inventory</a>
+            <a href="/orders">Orders</a>
+            <a href="/suppliers">Suppliers</a>
+            <a href="/warehouses">Warehouses</a>
+        </nav>
+
+        <button id="logoutBtn" type="button">Logout</button>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- HEADER -->
+        <header class="header">
+
+            <div>
+                <h1>Dashboard</h1>
+                <p>Welcome to KaneMart</p>
+            </div>
+
+            <div class="user-info">
+                <span id="employeeName">Employee</span>
+                <span id="employeeRole">Role</span>
+            </div>
+
+        </header>
+
+        <!-- STATISTICS -->
+        <section class="stats">
+
+            <div class="stat-card">
+                <h3>Total Products</h3>
+                <p id="totalProducts">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Available Stock</h3>
+                <p id="availableStock">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Pending Orders</h3>
+                <p id="pendingOrders">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Low Stock Items</h3>
+                <p id="lowStockItems">0</p>
+            </div>
+
+        </section>
+
+        <!-- INVENTORY CHARTS -->
+        <section class="charts-section">
+
+            <div class="chart-card">
+                <h2>Stock by Product</h2>
+
+                <p class="chart-description">
+                    Available inventory across all warehouse locations.
+                </p>
+
+                <div class="chart-container">
+                    <canvas id="stockByProductChart"></canvas>
+                </div>
+
+                <p id="stockChartMessage" class="chart-message"
+                   role="status"></p>
+            </div>
+
+            <div class="chart-card">
+                <h2>Inventory Distribution</h2>
+
+                <p class="chart-description">
+                    Distribution of available stock by product.
+                </p>
+
+                <div class="chart-container">
+                    <canvas id="inventoryDistributionChart"></canvas>
+                </div>
+
+                <p id="distributionChartMessage" class="chart-message"
+                   role="status"></p>
+            </div>
+
+        </section>
+
+        <!-- DASHBOARD CARDS -->
+        <section class="dashboard-grid">
+
+            <div class="dashboard-card">
+                <h2>Inventory Overview</h2>
+                <p>Monitor available stock and inventory levels.</p>
+
+                <button type="button"
+                        onclick="window.location.href='/inventory'">
+                    View Inventory
+                </button>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>Order Management</h2>
+                <p>Track and manage customer orders.</p>
+
+                <button type="button"
+                        onclick="window.location.href='/orders'">
+                    View Orders
+                </button>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>Product Management</h2>
+                <p>Add, update and manage products.</p>
+
+                <button type="button"
+                        onclick="window.location.href='/products'">
+                    Manage Products
+                </button>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>Warehouse</h2>
+                <p>Manage warehouse locations and stock distribution.</p>
+
+                <button type="button"
+                        onclick="window.location.href='/warehouses'">
+                    View Warehouses
+                </button>
+            </div>
+
+        </section>
+
+        <!-- AI REORDER RECOMMENDATIONS -->
+        <section class="ai-reorder-section">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>AI Reorder Recommendations</h2>
+
+                    <p>
+                        Smart stock recommendations based on predicted demand.
+                    </p>
+                </div>
+
+                <button type="button"
+                        class="refresh-ai-btn"
+                        onclick="loadAiReorders()">
+                    Refresh AI
+                </button>
+
+            </div>
+
+            <div id="aiReorderMessage" class="ai-message">
+                Loading AI recommendations...
+            </div>
+
+            <div class="table-container">
+
+                <table class="ai-reorder-table">
+
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>SKU</th>
+                            <th>Current Stock</th>
+                            <th>Predicted Demand</th>
+                            <th>Reorder Level</th>
+                            <th>Recommended Stock</th>
+                            <th>Reorder Quantity</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="aiReorderTableBody">
+                        <!-- Populated by dashboard.js -->
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Dashboard JavaScript -->
+    <script src="/js/dashboard.js"></script>
+
+</body>
+</html>

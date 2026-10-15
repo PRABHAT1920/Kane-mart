@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KaneMart - Stock Operations</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            margin: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        input,
+        select {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .stock-in {
+            background: #16a34a;
+            color: white;
+        }
+
+        .stock-out {
+            background: #dc2626;
+            color: white;
+        }
+
+        .transfer {
+            background: #2563eb;
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #f0f2f5;
+        }
+
+        .message {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>KaneMart Stock Operations</h1>
+
+    <!-- STOCK IN -->
+    <div class="card">
+
+        <h2>Stock In</h2>
+
+        <form id="stockInForm">
+
+            <div class="form-grid">
+
+                <select id="stockInProduct" required>
+                    <option value="">Select Product</option>
+                </select>
+
+                <select id="stockInLocation" required>
+                    <option value="">Select Location</option>
+                </select>
+
+                <input
+                    type="number"
+                    id="stockInQuantity"
+                    placeholder="Quantity"
+                    min="1"
+                    required>
+
+                <input
+                    type="text"
+                    id="stockInReference"
+                    placeholder="Reference">
+
+            </div>
+
+            <button
+                type="submit"
+                class="stock-in">
+                Stock In
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- STOCK OUT -->
+    <div class="card">
+
+        <h2>Stock Out</h2>
+
+        <form id="stockOutForm">
+
+            <div class="form-grid">
+
+                <select id="stockOutProduct" required>
+                    <option value="">Select Product</option>
+                </select>
+
+                <select id="stockOutLocation" required>
+                    <option value="">Select Location</option>
+                </select>
+
+                <input
+                    type="number"
+                    id="stockOutQuantity"
+                    placeholder="Quantity"
+                    min="1"
+                    required>
+
+                <input
+                    type="text"
+                    id="stockOutReference"
+                    placeholder="Reference">
+
+            </div>
+
+            <button
+                type="submit"
+                class="stock-out">
+                Stock Out
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- STOCK TRANSFER -->
+    <div class="card">
+
+        <h2>Stock Transfer</h2>
+
+        <form id="transferForm">
+
+            <div class="form-grid">
+
+                <select id="transferProduct" required>
+                    <option value="">Select Product</option>
+                </select>
+
+                <select id="fromLocation" required>
+                    <option value="">From Location</option>
+                </select>
+
+                <select id="toLocation" required>
+                    <option value="">To Location</option>
+                </select>
+
+                <input
+                    type="number"
+                    id="transferQuantity"
+                    placeholder="Quantity"
+                    min="1"
+                    required>
+
+                <input
+                    type="text"
+                    id="transferReference"
+                    placeholder="Reference">
+
+            </div>
+
+            <button
+                type="submit"
+                class="transfer">
+                Transfer Stock
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- MESSAGE -->
+    <div
+        id="message"
+        class="message">
+    </div>
+
+
+    <!-- TRANSACTIONS -->
+    <div class="card">
+
+        <h2>Stock Transactions</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Product</th>
+                    <th>Location</th>
+                    <th>Quantity</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Reference</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="transactionTableBody">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script src="/js/stock.js"></script>
+
+</body>
+
+</html>
